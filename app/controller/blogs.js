@@ -3,7 +3,7 @@ const moment = require('moment')
 
 async function lists(request, response) {
     try {
-        const results = await db.query(`SELECT id, title, to_char(created_date, 'dd Month yyyy') as \"createdDate\", to_char(published_date, 'dd Month yyyy') as \"publishedDate\" from exp_blog_posts`)
+        const results = await db.query(`SELECT id, title, substring(content, 1, 30) as content, status, to_char(created_date, 'dd Month yyyy') as \"createdDate\", to_char(published_date, 'dd Month yyyy') as \"publishedDate\" from exp_blog_posts`)
 
         response.status(200).json({
             status: 'success',
@@ -23,10 +23,11 @@ async function insertBlogs(request, response) {
     const { id, title, image, content, status, userId } = request.body
 
     const currentDate = moment().format('YYYY-MM-DD HH:mm:ss')
+    const publishedDate = (parseInt(status) === 1) ? currentDate : null
 
     try {
         if (id === '') {
-            const results = await db.query(`INSERT INTO exp_blog_posts(title, image, content, status, created_by, created_date) VALUES($1, $2, $3, $4, $5, $6)`, [title, image, content, status, userId, currentDate])
+            const results = await db.query(`INSERT INTO exp_blog_posts(title, image, content, status, created_by, created_date, published_date) VALUES($1, $2, $3, $4, $5, $6, $7)`, [title, image, content, status, userId, currentDate, publishedDate])
 
             if (results.rowCount > 0) {
                 response.status(200).json({
