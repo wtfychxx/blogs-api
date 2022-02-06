@@ -76,7 +76,7 @@ async function details(request, response) {
 
         const data = {
             ...post,
-            comments: getComments.rows
+            comments: getComments
         }
 
         if (result.rowCount > 0) {

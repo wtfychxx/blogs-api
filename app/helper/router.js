@@ -10,6 +10,7 @@ router.use(function hitlog(request, response, next) {
 })
 
 router.post('/authentication', auth.login)
+router.post('/logout', auth.logout)
 router.get('/blogs', blogs.lists)
 router.get('/blogs/details/:id', blogs.details)
 router.post('/blogs/comments/:postId', blogs.insertComments)

@@ -74,5 +74,6 @@ async function getIpAddress() {
 }
 
 module.exports = {
-    login
+    login,
+    logout
 }
